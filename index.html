@@ -250,8 +250,21 @@
         .question-text {
             font-size: 1.05rem;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             font-weight: 500;
+        }
+
+        .statements {
+            background: var(--gray-light);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            border-left: 4px solid var(--primary);
+        }
+        .statements div {
+            padding: 4px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .options {
@@ -643,6 +656,13 @@
                 height: 32px;
                 font-size: 0.7rem;
             }
+            .statements {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            .statements div {
+                font-size: 0.85rem;
+            }
         }
 
         /* ===== UTILITY ===== */
@@ -753,7 +773,7 @@
                 </label>
             </div>
 
-            <!-- ===== QRIS SECTION (DITINGKATKAN) ===== -->
+            <!-- ===== QRIS SECTION ===== -->
             <div class="qris-section">
                 <div class="qris-title">
                     <span class="icon">💳</span> Dukung Perjalanan Ibadah
@@ -783,6 +803,7 @@
             </div>
 
             <div class="question-text" id="questionText">Loading...</div>
+            <div id="statementsContainer"></div>
 
             <div class="options" id="optionsContainer"></div>
 
@@ -1043,7 +1064,7 @@
                 "C. 2) dan 3) saja",
                 "D. 1), 2), dan 3)"
             ],
-            correct: 1,
+            correct: 0,
             explanation: "Keterbukaan dan empati adalah faktor utama efektivitas interpersonal."
         }, {
             id: 25,
@@ -1102,7 +1123,7 @@
                 "C. 2) dan 3) saja",
                 "D. 1), 2), dan 3)"
             ],
-            correct: 1,
+            correct: 0,
             explanation: "Mengabaikan budaya dan takut kehilangan status menghambat inovasi."
         }, {
             id: 32,
@@ -1413,7 +1434,7 @@
                 "C. 2) dan 3) saja",
                 "D. 1), 2), dan 3)"
             ],
-            correct: 1,
+            correct: 0,
             explanation: "Keterbukaan dan empati."
         }, {
             id: 70,
@@ -1550,14 +1571,14 @@
                 "C. 2) dan 3) saja",
                 "D. 1), 2), dan 3)"
             ],
-            correct: 1,
+            correct: 0,
             explanation: "Obat baru dan metode KB adalah inovasi bidang kesehatan."
         }, {
             id: 88,
             question: "Definisi difusi inovasi yaitu Communication is a process in which participants create and share information with one another in order to reach a mutual understanding. Definisi tersebut adalah pendapat...",
             options: ["A. Rogers (1996)", "B. Rogers and Shoemaker (1991)", "C. Brown (1981)", "D. Parker (1974)"],
-            correct: 1,
-            explanation: "Definisi tersebut dari Rogers and Shoemaker (1991)."
+            correct: 0,
+            explanation: "Definisi tersebut dari Rogers (1996)."
         }, {
             id: 89,
             question: "Menurut Rogers dan Shoemaker (1981), ada beberapa karakteristik inovasi dilihat dari tingkat kepentingannya, yaitu...",
@@ -1943,6 +1964,72 @@
         }];
 
         // ============================================================
+        //  1b.  Statements untuk soal kombinasi (1), 2), 3)
+        // ============================================================
+        const STATEMENTS_MAP = {
+            7: ["Memberi informasi", "Memberi contoh", "Memberi motivasi"],
+            8: ["Sumber", "Saluran", "Tujuan"],
+            10: ["Intuisi", "Inspirasi", "Spekulasi"],
+            11: ["Instruksi", "Negosiasi", "Pertimbangan"],
+            12: ["Inisiasi", "Legitimasi", "Stimulasi"],
+            15: ["Sumber", "Penerima", "Saluran"],
+            16: ["National policy-making", "Managerial policy", "Cross-ministerial planning"],
+            19: ["Menerima", "Menciptakan", "Memonitor"],
+            20: ["Dialog", "Menyampaikan pesan", "Membujuk"],
+            22: ["Meminimalisasi kelemahan", "Empati", "Menerima perbedaan"],
+            23: ["Stable equilibrium", "Dynamic equilibrium", "Disequilibrium"],
+            24: ["Keterbukaan", "Empati", "Kejelasan"],
+            29: ["Memenuhi kebutuhan", "Segera diperlukan", "Menjadi solusi"],
+            30: ["Inovasi", "Inovator & adopter awal", "Agen perubahan profesional"],
+            31: ["Mengabaikan budaya", "Takut kehilangan status", "Kurang sumber daya"],
+            32: ["Memperoleh informasi penting", "Bereaksi tepat", "Menyampaikan pesan"],
+            40: ["Individu", "Organisasi", "Institusi"],
+            47: ["Anggota keluarga", "Pendapatan", "Kelompok referensi"],
+            50: ["Penyuluhan", "Agribisnis", "Komunitas"],
+            55: ["Spekulasi", "Intuisi", "Inspirasi"],
+            56: ["Instruksi", "Negosiasi", "Pertimbangan"],
+            57: ["Stimulasi", "Inisiasi", "Legitimasi"],
+            59: ["Kebutuhan/masalah", "Riset dasar dan terapan", "Difusi dan adopsi"],
+            60: ["Empati", "Bahasa mudah", "Kredibilitas tinggi"],
+            64: ["Menerima", "Memonitor", "Menciptakan"],
+            67: ["Kepercayaan tinggi", "Aktif mengikuti ide", "Level birokrasi pendek"],
+            68: ["Stable equilibrium", "Dynamic equilibrium", "Disequilibrium"],
+            69: ["Keterbukaan", "Empati", "Kejelasan"],
+            75: ["Inovator dan adopter awal", "Agen perubahan profesional", "Inovasi"],
+            76: ["Strategi dan visi jelas", "Kepemimpinan", "Lingkungan fisik"],
+            85: ["Pengetahuan baru", "Produk baru", "Media baru"],
+            87: ["Obat baru", "Metode KB", "Alat kesehatan"],
+            89: ["Cost of innovation", "Cultural compatibility", "Relative advantage"],
+            90: ["Memberi tambahan teori", "Membuat program lebih efektif", "Melancarkan kritik"],
+            92: ["Anggota keluarga", "Kelompok referensi", "Pendapatan keluarga"],
+            95: ["Perubahan perilaku", "Proses komunikasi", "Mediator"],
+            96: ["Teknis", "Administrasi", "Hubungan antar pribadi"],
+            103: ["Pengetahuan", "Kesejahteraan", "Kemampuan memelihara peluang"],
+            105: ["Saluran pesan", "Sumber pesan", "Penerima pesan"],
+            106: ["National policy-making", "Managerial policy", "Cross-ministerial planning"],
+            108: ["Rekayasa sosial", "Pemasaran sosial", "Partisipasi sosial"],
+            110: ["Menyampaikan pesan", "Membujuk", "Berdialog"],
+            111: ["Perbedaan makna simbol", "Pemilihan pesan", "Stereotype"],
+            112: ["Level birokrasi pendek", "Kepercayaan tinggi", "Aktif mengikuti ide"],
+            121: ["Lingkungan fisik", "Kepemimpinan", "Strategi dan visi jelas"],
+            123: ["Rencana", "Hasil", "Dampak"],
+            130: ["Institusi", "Individu", "Organisasi"],
+            133: ["Invention", "Diffusion", "Consequences"],
+            134: ["Relative advantage", "Cost of innovation", "Cultural compatibility"],
+            135: ["Memberi tambahan teori", "Membuat program lebih efektif", "Melancarkan kritik"]
+        };
+
+        // Tambahkan type dan statements ke soal yang sesuai
+        MASTER_QUESTIONS.forEach(q => {
+            if (STATEMENTS_MAP[q.id]) {
+                q.type = 'combination';
+                q.statements = STATEMENTS_MAP[q.id];
+            } else {
+                q.type = 'mcq';
+            }
+        });
+
+        // ============================================================
         //  2.  KONFIGURASI & STATE
         // ============================================================
         const TOTAL = MASTER_QUESTIONS.length;
@@ -1975,6 +2062,7 @@
         const qNumDisplay = $('qNumDisplay');
         const qIndexDisplay = $('qIndexDisplay');
         const questionText = $('questionText');
+        const statementsContainer = $('statementsContainer');
         const optionsContainer = $('optionsContainer');
         const feedback = $('feedback');
         const feedbackAnswer = $('feedbackAnswer');
@@ -2157,7 +2245,9 @@
                     question: q.question,
                     options: newOpts,
                     correct: targetPos,
-                    explanation: q.explanation || 'Penjelasan tidak tersedia.'
+                    explanation: q.explanation || 'Penjelasan tidak tersedia.',
+                    type: q.type || 'mcq',
+                    statements: q.statements || null
                 });
             }
             return result;
@@ -2215,6 +2305,15 @@
             qNumDisplay.textContent = `Soal ${currentIndex + 1}`;
             qIndexDisplay.textContent = `${currentIndex + 1} / ${currentQuestions.length}`;
             questionText.textContent = q.question;
+
+            // Tampilkan statements jika ada
+            statementsContainer.innerHTML = '';
+            if (q.statements && q.statements.length > 0) {
+                const div = document.createElement('div');
+                div.className = 'statements';
+                div.innerHTML = q.statements.map((s, idx) => `<div>${idx+1}) ${s}</div>`).join('');
+                statementsContainer.appendChild(div);
+            }
 
             optionsContainer.innerHTML = '';
             const selected = answers[currentIndex];
